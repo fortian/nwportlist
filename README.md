@@ -8,9 +8,10 @@ following:
 
 1. First time through, the table has one row plus header:
 
-Head Unit IP | Device IP | Device Type | Add
+Head Unit IP | Device IP | Device Type | Add/Save
 -------------|-----------|-------------|----
-<input placeholder="Head Unit IP"> | <input placeholder="Device IP"> | <select size=1><option>Device Type</option></select> | <button>+</button>
+`[input]`    | `[input]` | `[select]`  | [+] [Save]
+
 
 
     [ Head Unit IP ]   [ Device IP ]   [ 
