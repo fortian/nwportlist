@@ -60,7 +60,6 @@ following:
   </td>
   <td><!-- Note lack of + and Save buttons. -->
  </tr>
- <!--
  <tr>
   <td>10.10.10.10</td><!-- This is the first IP they entered last time. -->
   <!-- Otherwise, this is basically the same as the old first data row. -->
