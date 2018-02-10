@@ -2,10 +2,9 @@
 <html>
  <head>
   <title>??</title>
-  <script type="text/javascript">
-  </script>
 <?php
-$models = Array();
+$msg = null;
+$models = array();
 if (($handle = fopen("test.csv", "r")) !== FALSE) {
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
         if ($data[0] !== null) {
@@ -14,56 +13,80 @@ if (($handle = fopen("test.csv", "r")) !== FALSE) {
     }
     if (count($models) < 1) {
         $errors = error_get_last();
-        print "<p>Error: No data in test.csv: " . $errors['message'] . "</p>\n"
-        exit(2);
+        $msg = "<p>Error: No data in test.csv: " . $errors['message'] . "</p>\n"
     }
 } else {
     $errors = error_get_last();
-    print "<p>Error: Couldn't open test.csv: " . $errors['message'] . "</p>\n"
-    exit(1);
+    $msg = "<p>Error: Couldn't open test.csv: " . $errors['message'] . "</p>\n"
 }
 
-if (isset($_POST['headunit'])) {
+if (!isset($msg) && isset($_POST['headunit'])) {
     // print CSV and make them download it
     exit (0);
 }
 
 // The below is only if you want JavaScript plus PHP (minimize form submissions)
 
-print "  <script type=\"text/javascript\">\n";
-print "function makeRow(isTop) {\n";
-print "  document.print('<tr>');\n";
-print "  document.print('<td>');\n";
-print "  if (isTop) {\n";
-print "    document.print('<input name=\"headunit\" value=\"\" placeholder=\"Head Unit IP\">';\n");
-print "  }\n";
-print "  document.print('</td>');\n";
-print "  document.print('<td>');\n";
-print "  document.print('<input name=\"device[]\" value=\"\" placeholder=\"Head Unit IP\">';\n");
-print "  document.print('</td>');\n";
-print "  document.print('<td>');\n";
-print "  document.print('<select name=\"devtype[]\" size=1>');\n";
-for ($models as $k => $v) {
-    print "  document.print('<option>" . $k[$v[0]] . "</option>');\n";
+if (!isset($msg)) {
+    print <<< END1
+  <script type="text/javascript">
+function makeRow(isTop) {
+    var table, tr, td, input, select, option, button, models, i;
+
+    models = [
+END1
+    foreach ($models as $v) {
+        // Stomp on \ and ' in the name.  Don't use those in names.
+        $x = str_replace(array("\\", "'"), '', $v[0]);
+        print "        '" . $x . "',\n";
+    }
+    print <<< END2
+    ];
+
+    table = document.getElementById('maintbl');
+    if (table != null) {
+        tr = table.createRow(); // Automatically gets added to the table.
+        td = tr.createCell(); // Automatically gets added to the row.
+
+        if (isTop) {
+            input = document.createElement('input');
+            input.name = 'headunit';
+            input.placeholder = 'Head Unit IP';
+            td.appendChild(input);
+        }
+
+        td = tr.createCell();
+        input = document.createElement('input');
+        input.name = 'deviceip[]';
+        input.placeholder = 'Device IP';
+        td.appendChild(input);
+
+        td = tr.createCell();
+        select = document.createElement('select');
+        select.name = 'devicetype[]';
+        foreach (i in models) {
+            option = document.createElement('option');
+            option.appendChild(document.createTextNode(models[i]));
+            select.appendChild(option);
+        }
+        td.appendChild(select);
+
+        td = tr.createCell();
+        if (isTop) {
+            button = document.createElement('button');
+            button.type = 'button';
+            button.appendChild(document.createTextNode('+'));
+            button.onclick = 'makeRow(false);';
+            td.appendChild(button);
+        }
+    }
 }
-print "  document.print('</select>');\n";
-print "  document.print('</td>');\n";
-print "  document.print('<td>');\n";
-print "  if (isTop) {\n";
-print "    document.print('<button type=\"button\" onclick=\"makeRow(false);\">+</button>');\n";
-print "  }\n";
-print "  document.print('</td>');\n";
-print "  document.print('</tr>');\n";
-print "}\n";
-print "  </script>\n";
-
-
-
+END2
 ?>
  </head>
  <body>
   <form method="post" action="">
-   <table>
+   <table id="maintbl">
     <tr>
      <th>Head Unit</th>
      <th>Device</th>
