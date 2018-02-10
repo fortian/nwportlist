@@ -37,8 +37,8 @@ following:
 
 2. The user hits the plus button.
 3. The server validates the inputs
-  - If they're bad, kick it back with an error message, and go back to 1.  If you're feeling nice, pre-fill-in the fields and mark the one that is wrong.
-  - If they're good, go on to 4.  Let's assume they entered, respectively, `10.10.10.10`, `10.11.12.13`, and `Model 2`.
+   - If they're bad, kick it back with an error message, and go back to 1.  If you're feeling nice, pre-fill-in the fields and mark the one that is wrong.
+   - If they're good, go on to 4.  Let's assume they entered, respectively, `10.10.10.10`, `10.11.12.13`, and `Model 2`.
 4. The server replies with the following:
 
 ```html
