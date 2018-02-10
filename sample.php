@@ -28,19 +28,21 @@ if (!isset($msg) && isset($_POST['headunit'])) {
 // The below is only if you want JavaScript plus PHP (minimize form submissions)
 
 if (!isset($msg)) {
-    print <<< END1
+    // I know I said not to do the following, but the syntax highlighting on
+    // GitHub works better if I do.
+?>
   <script type="text/javascript">
 function makeRow(isTop) {
     var table, tr, td, input, select, option, button, models, i;
 
     models = [
-END1
+<?php
     foreach ($models as $v) {
         // Stomp on \ and ' in the name.  Don't use those in names.
         $x = str_replace(array("\\", "'"), '', $v[0]);
         print "        '" . $x . "',\n";
     }
-    print <<< END2
+?>
     ];
 
     table = document.getElementById('maintbl');
@@ -81,10 +83,17 @@ END1
         }
     }
 }
-END2
-?>
+  </script>
  </head>
  <body>
+<?php
+if (isset($msg)) {
+    print "<p>Contact Fortian with the following error message:</p>\n";
+    print $msg;
+    // Finish off the document.
+    print " </body>\n</html>";
+    exit(1);
+?>
   <form method="post" action="">
    <table id="maintbl">
     <tr>
