@@ -10,8 +10,7 @@ following:
 
 Head Unit IP | Device IP | Device Type | Add
 -------------|-----------|-------------|----
-<input placeholder="Head Unit IP"> | <input placeholder="Device IP"> |
-<select size=1><option>Device Type</option></select | <button>+</button>
+<input placeholder="Head Unit IP"> | <input placeholder="Device IP"> | <select size=1><option>Device Type</option></select> | <button>+</button>
 
 
     [ Head Unit IP ]   [ Device IP ]   [ 
